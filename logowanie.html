@@ -1,0 +1,23 @@
+<?php
+session_start()
+?>
+<!DOCTYPE html>
+<?php session_start(); ?>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
+</head>
+<body style="background-color:rgb(35, 35, 35);">
+<form action="logowanie.php" method="GET" >
+    <label>Podaj email i haslo<br>
+        <input type="text" id="email" name="email" placeholder="email"><br>
+        <input type="password" id="haslo" name="haslo" placeholder="haslo">
+    </label>
+    <input type="submit" value="zaloguj" /><br>
+</form>
+<form action="stronaglowna.php">
+    <input type="submit" value="powrut" />
+</form>
+</body>
+</html>
