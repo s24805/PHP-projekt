@@ -1,0 +1,35 @@
+quizy:
+zapisywane sa w pliku _lista.txt
+1. miejsce = nazwa
+2. miejsce = czy sa ujemne saujemne/nieujemne
+3. miejsce = czas na odpowiedz 0/60 itp (jak 0 to nieskonczony czas)
+4. miejsce = czy losowa kolejnosc pytan losowepyt/nielosowepyt
+5. miejsce = czy losowa kolejnosc odpowiedzi losoweodp/nielosoweodp
+6. miejsce = czy mozna cofac do poprzedniego pytania moznacofac/niemoznacofac
+7. miejsce = ilosc pytan
+8. miejsce = max ilosc pktow
+przyklad:
+test1 saujemne 60 losowepyt losoweodp moznacofac 4 8
+
+pytania:
+-kazde pytanie konczy sie nowa linijka
+-czesci pytania, takie jak typ pytania,ilosc pktow za pytanie, tresc pytania i odpowiedzi oddzielane sa znakiem ]
+-typy pytan: 
+1. jednokrotnego wyboru - jednokrotne
+2. wielokrotnego wyboru - wielokrotne
+3. krotka odpowiedz - wpisz
+4. wybór odpowiedzi z listy - lista
+5. wypełnienie słów - dziury
+6. sortowanie elementów - sortuj
+7. dopasowanie elementów - polacz
+8. Prawda/Fałsz - prawda
+typ pytania]ilosc pktow]tresc pytania]odp1]odp2...]odpx]poprawna odpowiedz
+przyklad:
+sortuj]1]Posortuj w kolejnosci chronologicznej:]pierwsza wojna swaitowa]koronacja Chrobrego]powstanie swiata]1ws{koronacja Chrobrego{...
+
+$_SESSION:
+    $_SESSION['stringDanychQuizu'] ="$nazwaQuizu $e $a $b $c $d";//np test1 saujemne 60 losowepyt losoweodp moznacofac
+	$_SESSION['trescPytania']= trim($_GET['TrescPytania'], "]");
+	$_SESSION['typPytania']=$_GET['typPyt'];
+	$_SESSION['typPytania']=$_GET['typPyt'];
+	$_SESSION['pktZaPyt']=$_GET['pkty'];
