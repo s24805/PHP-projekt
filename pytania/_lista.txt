@@ -1,0 +1,3 @@
+test1 saujemne 60 losowepyt losoweodp moznacofac 4 4 koks2137
+test2 nieujemne 0 nielosowepyt nielosoweodp niemoznacofac 4 8 Antoniii
+test3 saujemne 60 losowepyt nielosoweodp niemoznacofac 1 1 Florydsonn
