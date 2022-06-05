@@ -38,7 +38,7 @@ class Quiz{
         }
     }
     public function Wypisz(){
-        if($nazwa=$this->getNazwa()!="") {
+        if($this->getNazwa()!="") {
             $nazwa = $this->getNazwa();
             $nick = $this->getNick();
             $wynik = "Nazwa Quizu: $nazwa. Quiz został stworzony przez $nick.<br> Cechy tego Quizu:<br>";
@@ -141,15 +141,82 @@ class Pytanie{
     {
         return $this->poprawnaodpowiedz;
     }
+    public function PytanieWString(){
+        $typ=$this->getTyp();
+        $punkty=$this->getPunkty();
+        $pytanie=$this->getPytanie();
+        $odpowiedzi=$this->getOdpowiedzi();
+        $poprawnaOdp=$this->getPoprawnaodpowiedz();
+        $wynik="$typ]$punkty]$pytanie]";
+        //do zrobienia jeszcze zapisywanie odpowiedz w zaleznosci od typu pytania (jesli bedzie potrzebne)
+    }
      public function stworz($linia){
+         $odpowiedzi = array();
          $arraylini = explode("]", $linia);
          $this->typ=$arraylini[0];
          $this->punkty=$arraylini[1];
          $this->pytanie=$arraylini[2];
-         for($i=3;$i<count($arraylini)-2;$i++)
-             array_push($odpowiedzi, $arraylini[$i]);
-         $this->odpowiedzi=$odpowiedzi;
-         $this->poprawnaodpowiedz=$arraylini[count($arraylini)-1];
+         switch ($arraylini[0]) {
+             case "jednokrotne":
+             case "lista":
+                 for ($i = 3; $i < 7; $i++) {
+                     $odpowiedzi[] = $arraylini[$i];
+                 }
+                 $this->poprawnaodpowiedz = $arraylini[count($arraylini) - 1];
+                 $this->odpowiedzi=$odpowiedzi;
+                 break;
+             case "wielokrotne":
+                 $poprawneOdp=str_split($arraylini[count($arraylini) - 1]);
+                 foreach ($poprawneOdp as $litera){
+                     $litera=intval($litera);
+                 }
+                 $PoprawneOdpowiedzi = array();
+                 for($i=3;$i<7;$i++){
+                     if (in_array($i, $poprawneOdp)) {
+                         $PoprawneOdpowiedzi[] = $arraylini[$i];
+                     }
+                     $odpowiedzi[] = $arraylini[$i];
+                 }
+                 $this->odpowiedzi=$odpowiedzi;
+                 $this->poprawnaodpowiedz =$PoprawneOdpowiedzi;
+                 break;
+             case "wpisz":
+                 $this->poprawnaodpowiedz = $arraylini[count($arraylini) - 1];
+                 break;
+             case "dziury":
+                 $arrayLiter=explode(" ", $arraylini[count($arraylini) - 1]);
+                 foreach ($arrayLiter as $litera){
+                     $litera=intval($litera);
+                 }
+                 $calaOdp=$arraylini[3];
+                 $brakujaceLitery="";
+                 $stringzdziurami="";
+                 for($i=0;$i<strlen($calaOdp);$i++){
+                     if (in_array($i, $arrayLiter)) {
+                         $brakujaceLitery.= "$calaOdp[$i]";
+                         $stringzdziurami.="_";
+                     }
+                     else
+                         $stringzdziurami.="$calaOdp[$i]";
+                 }
+                 $this->odpowiedzi=$stringzdziurami;
+                 $this->poprawnaodpowiedz =$brakujaceLitery;
+                 break;
+             case "sortuj":
+             case "polacz":
+                 $PoprawneOdpowiedzi="";
+                 for($i=3;$i<count($arraylini);$i++){
+                     $odpowiedzi[] = $arraylini[$i];
+                     $PoprawneOdpowiedzi.="$arraylini[$i]\n";
+                 }
+                 $PoprawneOdpowiedzi=rtrim($PoprawneOdpowiedzi);
+                 $this->odpowiedzi=$odpowiedzi;
+                 $this->poprawnaodpowiedz =$PoprawneOdpowiedzi;
+                 break;
+             case "prawda":
+                 $this->poprawnaodpowiedz=$arraylini[3];
+                 break;
+         }
      }
 }
 ?>
