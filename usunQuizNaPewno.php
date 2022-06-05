@@ -10,45 +10,25 @@ include('funkcje.php');
     </head>
     <body >
     <?php
-    Napisz("Ten Quiz:");
-    echo "<br>";
     $StringQuizu=$_GET['StringQuizu'];
+    $nazwaQuizu = $_GET['NazwaQuizu'];
+    Napisz("Czy ten Quiz: $nazwaQuizu ma zostać usunięty?");
+    //echo "<br>";
     $quiz = new Quiz;
     $quiz->Stworz($StringQuizu);
     $quiz->Wypisz();
-    echo "<br>";
-    Napisz("Został usunięty");
-    $nazwaQuizu = $_GET['NazwaQuizu'];
-    chdir("pytania");
-    $plik = "_lista.txt";
-    $handle = fopen($plik, "r+");
-    $wsrodku = file_get_contents($plik);
-    $lines = count(file($plik));
-    $current = "";
-    for ($i = 0; $i < $lines; $i++) {
-        $line = fgets($handle);
-        $pieces = explode(" ", $line);
-        if ($i == $lines - 1) {
-            $line = trim(preg_replace('/\s+/', '', $line));
-        }
-        if ($pieces[0] != $nazwaQuizu)
-            $current .= "$line";
-    }
-    $current = rtrim($current);
-    file_put_contents($plik, $current);
-    fclose($handle);
-    $nazwaQuizutxt = "$nazwaQuizu.txt";
-    unlink("$nazwaQuizutxt");
+    //echo "<br>";
+    //Napisz("ma zostać usunięty?");
     ?>
     <div>
-        <form style='text-align:center'>
+        <form style='text-align:left'>
             <input type="button" value="Anuluj"  onclick="history.back()" >
-        </form><br>
-    </div><br>
+        </form>
+    </div>
     <div>
-        <form method="get" action="stronaglowna.php" style='text-align:center'>
-            <input name="usun" type="submit" value="Tak,usuń"" >
-
+        <form method="get" action="usunQuizUsuniety.php" style='text-align:left'>
+            <input name="usun" type="submit" value="Tak,usuń" >
+            <input name="nazwa" type="hidden" value="<?php echo $nazwaQuizu?>" >
         </form><br>
     </div>
     </body>

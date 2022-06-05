@@ -16,6 +16,7 @@ include('funkcje.php');
     $quiz = new Quiz;
     for($i=0;$i<$ilequizow;$i++){
         $quiz->Stworz($listaquizow[$i]);
+        $stringDoPrzekazania=$listaquizow[$i];
         $opis=$quiz->Wypisz();
         $nazwa=$quiz->getNazwa();
         Napisz($opis);
@@ -23,7 +24,7 @@ include('funkcje.php');
         <div>
             <form method="get" action="usunQuizNaPewno.php" style='text-align:left'>
                 <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
-                <input type="hidden"  name="StringQuizu" value="<?php echo $listaquizow[$i]?>">
+                <input type="hidden"  name="StringQuizu" value="<?php echo $stringDoPrzekazania?>">
                 <button type="submit">usuń Quiz</button>
             </form><br>
         </div>
