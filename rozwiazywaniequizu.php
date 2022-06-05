@@ -8,61 +8,21 @@ include('funkcje.php');
     <title>quiz</title>
 </head>
 <body>
-<?php
-chdir("pytania");
-$string=$_GET['StringQuizu'];
-$NazwaQuizu=$_GET['NazwaQuizu'];
-$quiz = new Quiz;
-$quiz->Stworz($string);
-$email=$_SESSION['email'];
-$NazwaQuizutxt="$NazwaQuizu.txt";
-$wsrodku = file_get_contents($NazwaQuizutxt);
-$arrayPytanStringow= explode("\n", $wsrodku);
-$iloscPytan=count($arrayPytanStringow);
-$arrayPytan = array();
-foreach ($arrayPytanStringow as $PytanieString){
-    $pytanieClass = new Pytanie;
-    $pytanieClass->stworz($PytanieString);
-    $arrayPytan[] = $pytanieClass;
-}
-if($quiz->getCzylospytania()=="losowepyt"){
-    $ilePytan=count($arrayPytan);
-    for($i=0;$i<69;$i++){
-        $randomLiczba1=rand(0, $ilePytan-1);
-        $randomLiczba2=rand(0, $ilePytan-1);
-        $temp=$arrayPytan[$randomLiczba1];
-        $arrayPytan[$randomLiczba1]=$arrayPytan[$randomLiczba2];
-        $arrayPytan[$randomLiczba2]=$temp;
-    }
-}
-if($quiz->getCzylosodp()=="losoweodp"){
-    foreach($arrayPytan as $pytanie){
-        $ileOdp=$pytanie->getOdpowiedzi();
-        if(is_array($ileOdp)){
-            $ileOdp=count($ileOdp);
-        }
-        else
-            $ileOdp=1;
-        $arrayOdpowiedzi=$pytanie->getOdpowiedzi();
-        if($ileOdp!=1) {
-            for ($i = 0; $i < 68; $i++) {
-                $randomLiczba1 = rand(0, $ileOdp - 1);
-                $randomLiczba2 = rand(0, $ileOdp - 1);
-                $temp = $arrayOdpowiedzi[$randomLiczba1];
-                $arrayOdpowiedzi[$randomLiczba1] = $arrayOdpowiedzi[$randomLiczba2];
-                $arrayOdpowiedzi[$randomLiczba2] = $temp;
-            }
-        }
-    }
-}
-?>
 <label>Żyjemy</label>
 <?php
-$liczbaPktow=0;
+
+//$_SESSION['NrPytania']=0;
+$arrayPytan=$_GET['Pytania'];
+$quiz=$_SESSION['Quiz'];
+//$_SESSION['liczbaPktow']=0;
+$iloscPytan=count($arrayPytan);
+foreach ($arrayPytan as $pytankohej){
+   echo $pytankohej->getPytanie();
+}
 if(!isset($numerPytania)){
     $numerPytania=0;
 }
-if($numerPytania==$iloscPytan){
+if($numerPytania==$iloscPytan-1){
     //napisz pkty i takie tam
     Napisz("koeniec essa");
     Napisz($numerPytania);
@@ -72,6 +32,7 @@ if($numerPytania==$iloscPytan){
 else{
     If($quiz->getCzas()!=0) {
         $czasNaReset = $quiz->getCzas();
+        $numerPytania++;
     ?>
         <meta http-equiv="refresh" content="<?php echo$czasNaReset?>" />
     <?php
@@ -168,18 +129,21 @@ else{
         }
         ?>
     <div>
-        <form method="get" action="" style='text-align:center'>
-            <button name="kolejne" type="submit">nastepne pytanie</button>
+
+            <button name="kolejne" onclick=" refresh <?php $numerPytania++;?>" >nastepne pytanie</button>
             <?php
+            $numerPytania++;
+            echo "<a href=\"rozwiazywaniequizu.php?StringQuizu=$string&NazwaQuizu=$NazwaQuizu&NrPytania=$numerPytania\">Ostatni</a> ";
+            /*
             if(isset($_GET['kolejne'])){
                 $numerPytania++;
                 ?>
                 <meta http-equiv="refresh" content="0.1" />
             <?php
                 unset($_GET['kolejne']);
-            }
+            }*/
             ?>
-        </form><br>
+        <br>
     </div>
     <?php
     }
