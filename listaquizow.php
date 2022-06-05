@@ -21,7 +21,7 @@ for($i=0;$i<$ilequizow;$i++){
     Napisz($opis);
     ?>
     <div>
-        <form method="get" action="rozwiazywaniequizu.php" style='text-align:left'>
+        <form method="get" action="przygotowanieQuizu.php" style='text-align:left'>
             <input type="hidden"  name="StringQuizu" value="<?php echo $listaquizow[$i]?>">
             <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
             <button type="submit">Rozwiąż Quiz</button>

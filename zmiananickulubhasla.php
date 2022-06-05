@@ -13,6 +13,13 @@ session_start();
             <input type="text" id="haslo" name="haslo" placeholder="haslo" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{6,10}$">
             <input type="text" id="nick" name="nick" placeholder="nick"><br>
             <input type="submit" name="zmien" value="ić" /><br>
+        </label>
+    </form>
+    <div>
+        <form style='text-align:left'>
+            <input type="button" value="Anuluj"  onclick="history.back()" >
+        </form><br>
+    </div>
 <?php
 if(isset($_GET['zmien'])) {
     $ok = 1;
