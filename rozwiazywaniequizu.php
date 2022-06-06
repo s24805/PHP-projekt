@@ -8,26 +8,48 @@ include('funkcje.php');
     <title>quiz</title>
 </head>
 <body>
-<label>Żyjemy</label>
+<script>
+    function unhide() {
+        var hid = document.getElementsByClassName("exp");
+        if(hid[0].offsetWidth > 0 && hid[0].offsetHeight > 0) {
+            hid[0].style.visibility = "visible";
+        }
+    }
+</script>
+<form method="get" action="rozwiazywanieDodajOdp.php" style='text-align:center'>
 <?php
+if(isset($_GET['Pytania'])) {
+    $arrayPytanStringow = $_GET['Pytania'];
+    $_SESSION['arrayPytanStringow'] = $arrayPytanStringow;
+    $stringQuizu=$_GET['$stringQuizu'];
+    $_SESSION['stringQuizu']=$stringQuizu;
+}
+else{
+    $stringQuizu=$_SESSION['stringQuizu'];
+    $arrayPytanStringow=$_SESSION['arrayPytanStringow'];
+}
 
-//$_SESSION['NrPytania']=0;
-$arrayPytan=$_GET['Pytania'];
-$quiz=$_SESSION['Quiz'];
-//$_SESSION['liczbaPktow']=0;
-$iloscPytan=count($arrayPytan);
-foreach ($arrayPytan as $pytankohej){
-   echo $pytankohej->getPytanie();
+print_r($arrayPytanStringow);
+$quiz=new Quiz();
+$quiz->Stworz($stringQuizu);
+$iloscPytan=count($arrayPytanStringow);
+$arrayPytan=array();
+foreach ($arrayPytanStringow as $pytankohej){
+    $classPytanie= new Pytanie();
+    $classPytanie->stworz($pytankohej);
+    $arrayPytan[] = $classPytanie;
 }
-if(!isset($numerPytania)){
-    $numerPytania=0;
-}
+++$_SESSION['NrPytania'];
+$numerPytania=$_SESSION['NrPytania'];
 if($numerPytania==$iloscPytan-1){
     //napisz pkty i takie tam
     Napisz("koeniec essa");
-    Napisz($numerPytania);
     echo "<br>";
-    Napisz($iloscPytan);
+    echo $_SESSION['stringWybranychOdpowiedzi'];
+    ?>
+    <button type="submit">Pokaz wynik</button>
+    <input type="hidden" name="typPytania" value="koniec">
+    <?php
 }
 else{
     If($quiz->getCzas()!=0) {
@@ -44,9 +66,9 @@ else{
         echo "<br>";
         Napisz($Pytanie->getPytanie());
         $typPytania=$Pytanie->getTyp();
-        echo $Pytanie->getPytanie();
         echo "<br>";
         $odpowiedzi=$Pytanie->getOdpowiedzi();
+        echo "Odpowiedz poprawna wyzej <br>";
         switch ($typPytania) {
         case "jednokrotne":
             //radio
@@ -107,14 +129,23 @@ else{
             case "dziury":
                 $odpowiedz=$Pytanie->getOdpowiedzi();
                 $dlgOdp=strlen($odpowiedz);
-                $brakujaceLitery=$Pytanie->getPoprawnaodpowiedz();
-                $ileInputow=strlen($brakujaceLitery);
-                for($i=0;$i<$ileInputow;$i++){
+                $stringLiczbMiejscDoWymazania=$Pytanie->getPoprawnaodpowiedz();
+                $arrayLiczboliter=explode(" ",$stringLiczbMiejscDoWymazania);
+                $nazwyZmiennychWpisanych="";
+                foreach ($arrayLiczboliter as $literka)
+                    $literka=intval($literka);
+                for($i=0;$i<$dlgOdp;$i++){
                     $nazwaZmiennej="odp$i";
-                    ?>
-                    <input type="text" name="<?php echo$nazwaZmiennej?>" value="<?php echo$odpowiedzi ?>"> <?php Napisz($odpowiedzi);?><br>
-    <?php
+                    if (in_array($i, $arrayLiczboliter)) {
+                        $nazwyZmiennychWpisanych.="$i ";
+                        ?>
+                        <input type="text" name="<?php echo$nazwaZmiennej?>" size="1" maxlength="1" required>
+                        <?php
+                    }
+                    else
+                        Napisz($odpowiedz[$i]);
                 }
+                $nazwyZmiennychWpisanych=rtrim($nazwyZmiennychWpisanych);
                 break;
             case "polacz":
             case "sortuj":
@@ -128,25 +159,23 @@ else{
     <?php
         }
         ?>
-    <div>
 
-            <button name="kolejne" onclick=" refresh <?php $numerPytania++;?>" >nastepne pytanie</button>
-            <?php
-            $numerPytania++;
-            echo "<a href=\"rozwiazywaniequizu.php?StringQuizu=$string&NazwaQuizu=$NazwaQuizu&NrPytania=$numerPytania\">Ostatni</a> ";
-            /*
-            if(isset($_GET['kolejne'])){
-                $numerPytania++;
-                ?>
-                <meta http-equiv="refresh" content="0.1" />
-            <?php
-                unset($_GET['kolejne']);
-            }*/
-            ?>
-        <br>
+    <div>
+        <?php
+        if($typPytania=="dziury"){
+        ?>
+            <input type="hidden" name="nazwyZmiennychWpisanych" value="<?php echo$nazwyZmiennychWpisanych?>">
+            <input type="hidden" name="dlgOdp" value="<?php echo$dlgOdp?>">
+        <?php
+        }
+        ?>
+            <input type="hidden" name="typPytania" value="<?php echo$typPytania?>">
+            <button type="submit">przeslij odpowiedz</button>
     </div>
+        <br>
     <?php
     }
 ?>
+</form>
 </body>
 </html>
