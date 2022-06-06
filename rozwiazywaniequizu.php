@@ -41,7 +41,7 @@ foreach ($arrayPytanStringow as $pytankohej){
 }
 ++$_SESSION['NrPytania'];
 $numerPytania=$_SESSION['NrPytania'];
-if($numerPytania==$iloscPytan-1){
+if($numerPytania==$iloscPytan){
     //napisz pkty i takie tam
     Napisz("koeniec essa");
     echo "<br>";

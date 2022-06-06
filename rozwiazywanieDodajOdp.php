@@ -11,8 +11,10 @@ include('funkcje.php');
 
 <?php
 $typPytania=$_GET['typPytania'];
-if(!isset($_SESSION['stringWybranychOdpowiedzi']))
-    $_SESSION['stringWybranychOdpowiedzi']="";
+if(!isset($_SESSION['stringWybranychOdpowiedzi'])) {
+    $_SESSION['stringWybranychOdpowiedzi'] = "";
+    $_SESSION['stringPoprawnychOdpowiedzi'] = "";
+}
 switch ($typPytania) {
     case "jednokrotne":
     case "lista":
