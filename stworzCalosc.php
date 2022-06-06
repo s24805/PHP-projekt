@@ -17,10 +17,10 @@ $typPyt=$_SESSION['typPytania'];
 $pkty=$_SESSION['pktZaPyt'];
 $wynik="$typPyt]$pkty]$trescpytania]";
 if($typPyt=="jednokrotne"){
-    $a=trim($_GET['odp1'], "]");
-    $b=trim($_GET['odp2'], "]");
-    $c=trim($_GET['odp3'], "]");
-    $d=trim($_GET['odp4'], "]");
+    $a=str_replace("]", "",$_GET['odp1'] );
+    $b=str_replace("]", "",$_GET['odp2'] );
+    $c=str_replace("]", "",$_GET['odp3'] );
+    $d=str_replace("]", "",$_GET['odp4'] );
     $poprawnaodp=$_GET['poprawnaodp'];
     switch ($poprawnaodp) {
         case 1:
@@ -39,27 +39,37 @@ if($typPyt=="jednokrotne"){
     $wynik.="$a]$b]$c]$d]$poprawnaodp"; //poprawnaodp to dokladna kopia odpowiedzi
 }
 else if($typPyt=="wielokrotne"){
-    $a=trim($_GET['odp1'], "]");
-    $b=trim($_GET['odp2'], "]");
-    $c=trim($_GET['odp3'], "]");
-    $d=trim($_GET['odp4'], "]");
+    $a=str_replace("]", "",$_GET['odp1'] );
+    $b=str_replace("]", "",$_GET['odp2'] );
+    $c=str_replace("]", "",$_GET['odp3'] );
+    $d=str_replace("]", "",$_GET['odp4'] );
     $wynik.="$a]$b]$c]$d]";
+    $odpWarrayu=array();
+    $odpWarrayu[1] = str_replace(" ", "",$a );
+    $odpWarrayu[2] = str_replace(" ", "",$b );
+    $odpWarrayu[3] = str_replace(" ", "",$c );
+    $odpWarrayu[4] = str_replace(" ", "",$d );
 
 
-    $name = $_GET['odp'];
-    foreach ($name as $poprodp){
-        $wynik.="$poprodp"; //dla ciag liczb np 124
+    $poprodp = $_GET['odp'];
+    foreach ($poprodp as $litera){
+        $litera=intval($litera);
     }
+    for($i=1;$i<5;$i++){
+        if (in_array($i, $poprodp))
+            $wynik.="$odpWarrayu[$i] ";
+    }
+    $wynik=rtrim($wynik);
 }
 else if($typPyt=="wpisz"){
-    $a=trim($_GET['odp1'], "]");
+    $a=str_replace("]", "",$_GET['odp1'] );
     $wynik.="$a";
 }
 else if($typPyt=="lista"){
-    $a=trim($_GET['odp1'], "]");
-    $b=trim($_GET['odp2'], "]");
-    $c=trim($_GET['odp3'], "]");
-    $d=trim($_GET['odp4'], "]");
+    $a=str_replace("]", "",$_GET['odp1'] );
+    $b=str_replace("]", "",$_GET['odp2'] );
+    $c=str_replace("]", "",$_GET['odp3'] );
+    $d=str_replace("]", "",$_GET['odp4'] );
     $poprawnaodp=$_GET['poprawnaodp'];
     switch ($poprawnaodp) {
         case 1:
@@ -78,28 +88,29 @@ else if($typPyt=="lista"){
     $wynik.="$a]$b]$c]$d]$poprawnaodp"; //poprawnaodp to dokladna kopia odpowiedzi
 }
 else if($typPyt=="dziury"){
-    $a=trim($_GET['odp1'], "]");
-    $a=trim($a, "_");
-    $b=trim($_GET['cyfry'], "]");
+    $a=str_replace("]", "",$_GET['odp1'] );
+    $a=str_replace("_", "",$a );
+    $b=str_replace("]", "",$_GET['cyfry'] );
     $wynik.="$a]$b";// da 1 odpowiedz np K__ica
 
 }
 else if($typPyt=="sortuj"){
-    $a=trim($_GET['odp1'], "]");
-    $b=trim($_GET['odp2'], "]");
-    $c=trim($_GET['odp3'], "]");
-    $d=trim($_GET['odp4'], "]");
+    $a=str_replace("]", "",$_GET['odp1'] );
+    $b=str_replace("]", "",$_GET['odp2'] );
+    $c=str_replace("]", "",$_GET['odp3'] );
+    $d=str_replace("]", "",$_GET['odp4'] );
     $wynik.="$a]$b]$c]$d";
 }
 else if($typPyt=="polacz"){
-    $a1=trim($_GET['odp1a'], "]");
-    $a2=trim($_GET['odp1b'], "]");
-    $b1=trim($_GET['odp2a'], "]");
-    $b2=trim($_GET['odp2b'], "]");
-    $c1=trim($_GET['odp3a'], "]");
-    $c2=trim($_GET['odp3b'], "]");
-    $d1=trim($_GET['odp4a'], "]");
-    $d2=trim($_GET['odp4b'], "]");
+
+    $a1=str_replace("]", "",$_GET['odp1a'] );
+    $a2=str_replace("]", "",$_GET['odp1b'] );
+    $b1=str_replace("]", "",$_GET['odp2a'] );
+    $b2=str_replace("]", "",$_GET['odp2b'] );
+    $c1=str_replace("]", "",$_GET['odp3a'] );
+    $c2=str_replace("]", "",$_GET['odp3b'] );
+    $d1=str_replace("]", "",$_GET['odp4a'] );
+    $d2=str_replace("]", "",$_GET['odp4b'] );
     $wynik.="$a1]$a2]$b1]$b2]$c1]$c2]$d1]$d2";
 }
 else if($typPyt=="prawda"){
