@@ -14,10 +14,11 @@ $typPytania=$_GET['typPytania'];
 $poprawnaOdpowiedz=$_GET['poprawnaOdpowiedz'];
 $punktyZaPytanie=intval($_GET['punkty']);
 $czyUjemne=$_GET['czyUjemne'];
-if(!isset($_SESSION['stringWybranychOdpowiedzi'])) {
-    $_SESSION['stringWybranychOdpowiedzi'] = "";
+if(!isset($_SESSION['aktualnePunkty'])) {
+    $_SESSION['maxymalnePkty'] = 0;
     $_SESSION['aktualnePunkty'] = 0;
 }
+    $_SESSION['maxymalnePkty'] +=$punktyZaPytanie;
 switch ($typPytania) {
     case "jednokrotne":
     case "lista":
@@ -30,46 +31,41 @@ switch ($typPytania) {
             $_SESSION['aktualnePunkty']-=$punktyZaPytanie;
         break;
     case "wielokrotne":
-    foreach ($_GET['odp'] as $odpowiedz){
-        $_SESSION['stringWybranychOdpowiedzi'].="$odpowiedz ";
-    }
         $poprawnaOdpowiedz=rtrim($poprawnaOdpowiedz);
-        $pieces = explode(" ", $poprawnaOdpowiedz);
-        $_SESSION['stringWybranychOdpowiedzi']=rtrim($_SESSION['stringWybranychOdpowiedzi']);
-        $_SESSION['stringWybranychOdpowiedzi'].="<br>";
-    break;
-    case "dziury":
-        $dlgOdp=$_GET['dlgOdp'];
-        $nazwyZmiennychWpisanych=$_GET['nazwyZmiennychWpisanych'];
-        $arrNrowZmiennychWpisanych=explode(" ",$nazwyZmiennychWpisanych);
-        foreach ($arrNrowZmiennychWpisanych as $value)
-            $value=intval($value);
-        for($i=0;$i<$dlgOdp;$i++) {
-            if (in_array($i, $arrNrowZmiennychWpisanych)) {
-                $nazwaZmiennej="odp$i";
-                $termp=$_GET["$nazwaZmiennej"];
-                $_SESSION['stringWybranychOdpowiedzi'].="$termp";
+        $arrayWybranaOdpowiedzi=$_GET['odp'];
+        $arrayPoprawnaOdpowiedz=explode(" ", $poprawnaOdpowiedz);
+        $dzielnikPkt=count($arrayPoprawnaOdpowiedz);
+        $punktyZaPytanie=$punktyZaPytanie/$dzielnikPkt;
+        foreach($arrayWybranaOdpowiedzi as $odpowiedz){
+            if (in_array($odpowiedz, $arrayPoprawnaOdpowiedz)) {
+                $_SESSION['aktualnePunkty']+=$punktyZaPytanie;
             }
+            else if($czyUjemne=="saujemne")
+                $_SESSION['aktualnePunkty']-=$punktyZaPytanie;
         }
-        $_SESSION['stringWybranychOdpowiedzi'].="<br>";
         break;
-        case "koniec";
-        echo $_SESSION['stringWybranychOdpowiedzi'];
-        unset($_SESSION['stringWybranychOdpowiedzi']);
+    case "dziury":
+        $poprawneLitery=$_GET['poprawneLitery'];
+        $nazwyZmiennychWpisanych=$_GET['nazwyZmiennychWpisanych'];
+        if($poprawneLitery==$nazwyZmiennychWpisanych)
+            $_SESSION['aktualnePunkty']+=$punktyZaPytanie;
+        else if($czyUjemne=="saujemne")
+            $_SESSION['aktualnePunkty']-=$punktyZaPytanie;
+        break;
+    case "koniec";
+
         ?>
-            <div>
-                <form action="listaquizow.php" style='text-align:left'>
-                    <button type="submit"  value="powrot">
-                </form>
-            </div>
+        <div>
+            <form action="listaquizow.php" style='text-align:left'>
+                <button type="submit"  value="powrot">
+            </form>
+        </div>
         <?php
         break;
 }
 ?>
 <div>
-    <form style='text-align:left'>
-        <input type="button" value="wroc"  onclick="history.back()" >
-    </form>
+    <meta http-equiv="refresh" content="0;url=rozwiazywaniequizu.php" />
 </div>
 </body>
 </html>
