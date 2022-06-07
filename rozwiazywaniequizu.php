@@ -32,6 +32,7 @@ else{
 print_r($arrayPytanStringow);
 $quiz=new Quiz();
 $quiz->Stworz($stringQuizu);
+$quiz->getCzyujemne();
 $iloscPytan=count($arrayPytanStringow);
 $arrayPytan=array();
 foreach ($arrayPytanStringow as $pytankohej){
@@ -68,6 +69,7 @@ else{
         $typPytania=$Pytanie->getTyp();
         echo "<br>";
         $odpowiedzi=$Pytanie->getOdpowiedzi();
+        $poprawnaOdpowiedz=$Pytanie->getPoprawnaodpowiedz();
         echo "Odpowiedz poprawna wyzej <br>";
         switch ($typPytania) {
         case "jednokrotne":
@@ -150,13 +152,13 @@ else{
             case "polacz":
             case "sortuj":
                 echo "do zrobienia z JS";
-
-                echo "do zrobienia z JS";
-            case "prawda":
+                break;
+                case "prawda":
                 ?>
             <input type="radio" name="odp" value="prawda"> <?php Napisz("prawda");?><br>
             <input type="radio" name="odp" value="falsz"> <?php Napisz("fałsz");?><br>
     <?php
+                break;
         }
         ?>
 
@@ -170,6 +172,9 @@ else{
         }
         ?>
             <input type="hidden" name="typPytania" value="<?php echo$typPytania?>">
+            <input type="hidden" name="poprawnaOdpowiedz" value="<?php echo$poprawnaOdpowiedz?>">
+            <input type="hidden" name="punkty" value="<?php echo$iloscPktDoZdobycia?>">
+            <input type="hidden" name="czyUjemne" value="<?php echo$quiz?>">
             <button type="submit">przeslij odpowiedz</button>
     </div>
         <br>

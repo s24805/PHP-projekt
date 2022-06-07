@@ -11,22 +11,30 @@ include('funkcje.php');
 
 <?php
 $typPytania=$_GET['typPytania'];
+$poprawnaOdpowiedz=$_GET['poprawnaOdpowiedz'];
+$punktyZaPytanie=intval($_GET['punkty']);
+$czyUjemne=$_GET['czyUjemne'];
 if(!isset($_SESSION['stringWybranychOdpowiedzi'])) {
     $_SESSION['stringWybranychOdpowiedzi'] = "";
-    $_SESSION['stringPoprawnychOdpowiedzi'] = "";
+    $_SESSION['aktualnePunkty'] = 0;
 }
 switch ($typPytania) {
     case "jednokrotne":
     case "lista":
     case "wpisz":
     case "prawda":
-        $temp=$_GET['odp'];
-        $_SESSION['stringWybranychOdpowiedzi'].="$temp<br>";
+        $wybranaOdpowiedz=$_GET['odp'];
+        if($wybranaOdpowiedz=="$poprawnaOdpowiedz")
+            $_SESSION['aktualnePunkty']+=$punktyZaPytanie;
+        else if($czyUjemne=="saujemne")
+            $_SESSION['aktualnePunkty']-=$punktyZaPytanie;
         break;
     case "wielokrotne":
     foreach ($_GET['odp'] as $odpowiedz){
         $_SESSION['stringWybranychOdpowiedzi'].="$odpowiedz ";
     }
+        $poprawnaOdpowiedz=rtrim($poprawnaOdpowiedz);
+        $pieces = explode(" ", $poprawnaOdpowiedz);
         $_SESSION['stringWybranychOdpowiedzi']=rtrim($_SESSION['stringWybranychOdpowiedzi']);
         $_SESSION['stringWybranychOdpowiedzi'].="<br>";
     break;
