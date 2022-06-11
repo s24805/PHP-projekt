@@ -6,6 +6,7 @@ include('funkcje.php');
 <html lang="en">
 <head>
     <title>quiz</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
@@ -57,7 +58,7 @@ switch ($typPytania) {
         ?>
         <div>
             <form action="listaquizow.php" style='text-align:left'>
-                <button type="submit"  value="powrot">
+                <button type="submit"  class="button" value="powrot">
             </form>
         </div>
         <?php

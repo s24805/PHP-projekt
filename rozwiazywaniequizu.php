@@ -5,17 +5,12 @@ include('funkcje.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>quiz</title>
+    <meta charset="UTF-8">
+    <title>Rozwiazywanie quizu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<script>
-    function unhide() {
-        var hid = document.getElementsByClassName("exp");
-        if(hid[0].offsetWidth > 0 && hid[0].offsetHeight > 0) {
-            hid[0].style.visibility = "visible";
-        }
-    }
-</script>
 <form method="get" action="rozwiazywanieDodajOdp.php" style='text-align:center'>
     <?php
     if(isset($_GET['Pytania'])) {
@@ -54,8 +49,14 @@ include('funkcje.php');
         unset($_SESSION['aktualnePunkty']);
         unset($_SESSION['maxymalnePkty']);
         ?>
-        <button type="submit">Pokaz wynik</button>
+        <button type="submit"  class="button">Pokaz wynik</button>
         <input type="hidden" name="typPytania" value="koniec">
+        <?php
+    }
+    else if($numerPytania>$iloscPytan){
+        ?>
+        <meta http-equiv="refresh" content="0;url=listaquizow.php" />
+
         <?php
     }
     else{
@@ -69,12 +70,41 @@ include('funkcje.php');
         $numerPytaniaDlaWidza=$numerPytania+1;
         $Pytanie=$arrayPytan[$numerPytania];
         $iloscPktDoZdobycia=$Pytanie->getPunkty();
-        Napisz("Pytanie numer $numerPytaniaDlaWidza z $iloscPytan. Do zdobycia: $iloscPktDoZdobycia punkt/ów");
+        $typPytania=$Pytanie->getTyp();
+        switch ($typPytania) {
+            case "jednokrotne":
+                $typPytaniaDlaWidza="jednokrotnego wyboru";
+                break;
+            case "wielokrotne":
+                $typPytaniaDlaWidza="wielokrotnegoo wyboru";
+                break;
+            case "wpisz":
+                $typPytaniaDlaWidza="wpisz poprawną odpowiedź";
+                break;
+            case "lista":
+                $typPytaniaDlaWidza="wybierz z listy";
+                break;
+            case "dziury":
+                $typPytaniaDlaWidza="wpisz brakujace litery";
+                break;
+            case "polacz":
+                $typPytaniaDlaWidza="połącz pasujące stwierdzenia";
+                break;
+            case "sortuj":
+                $typPytaniaDlaWidza="posortuj w odpowiedniej kolejności";
+                break;
+            case "prawda":
+                $typPytaniaDlaWidza="prawda/fałsz";
+                break;
+        }
+        Napisz("Pytanie numer $numerPytaniaDlaWidza z $iloscPytan. Do zdobycia: $iloscPktDoZdobycia punkt/ów. Typ pytania: $typPytaniaDlaWidza");
         echo "<br>";
         Napisz($Pytanie->getPytanie());
-        $typPytania=$Pytanie->getTyp();
         echo "<br>";
         $odpowiedzi=$Pytanie->getOdpowiedzi();
+            if (is_array($odpowiedzi))
+                print_r($odpowiedzi);
+            echo "<br>";
         $poprawnaOdpowiedz=$Pytanie->getPoprawnaodpowiedz();
         echo "Odpowiedz poprawna wyzej <br>";
         switch ($typPytania) {
@@ -164,12 +194,104 @@ include('funkcje.php');
                 break;
             case "polacz":
             case "sortuj":
-                echo "do zrobienia z JS";
+                        $odpowiedz=$Pytanie->getOdpowiedzi();
+                        $poprawneOdpowiedi=$Pytanie->getPoprawnaodpowiedz();
+                        echo "<br>";
+                        $ileOdp=count($odpowiedz);
+                        for ($i = 0; $i < 4; $i++) {
+                            switch ($poprawneOdpowiedi[$i]) {
+                                case "$odpowiedz[0]":
+                                    $poprawneOdpowiediKolor[$i] = "pomarancz";
+                                    break;
+                                case "$odpowiedz[1]":
+                                    $poprawneOdpowiediKolor[$i] = "roz";
+                                    break;
+                                case "$odpowiedz[2]":
+                                    $poprawneOdpowiediKolor[$i] = "niebieski";
+                                    break;
+                                case "$odpowiedz[3]":
+                                    $poprawneOdpowiediKolor[$i] = "czerwony";
+                                    break;
+                            }
+                        }
+                        $poprawnaOdpowiedz="$poprawneOdpowiediKolor[0] $poprawneOdpowiediKolor[1] $poprawneOdpowiediKolor[2] $poprawneOdpowiediKolor[3]";
+
+                        //mieszam poprawne odpowiedzi
+                        for ($i = 0; $i < 68; $i++) {
+                            $randomLiczba1 =rand(0, $ileOdp - 1);
+                            $randomLiczba2 =rand(0, $ileOdp - 1);
+                            $temp = $odpowiedz[$randomLiczba1];
+                            if($typPytania=="polacz"){
+                                //pierwsze rzeczy do dopasowania beda mialy stala kolejnosc, zmieni sie kolejnosc odpowiedzi do dopasowania
+                                $odpowiedz[$randomLiczba1] = $odpowiedz[$randomLiczba2];
+                                $odpowiedz[$randomLiczba2] = $temp;
+                            }
+                            else {
+                                $odpowiedz[$randomLiczba1] = $odpowiedz[$randomLiczba2];
+                                $odpowiedz[$randomLiczba2] = $temp;
+                            }
+                        }
+                        if($typPytania=="sortuj"){
+                            $pomarancz=$odpowiedz[0];
+                            $roz=$odpowiedz[1];
+                            $niebieski=$odpowiedz[2];
+                            $czerwony=$odpowiedz[3];
+                        }
+
+                        echo "<br>";
+                        NapiszPom("Pomarańczowy ");
+                        Napisz("prostokąt odpowiada odpowiedzi: ");
+                        NapiszPom("$odpowiedz[0]");
+                        echo "<br>";
+
+                        NapiszRoz("Różowy ");
+                        Napisz("prostokąt odpowiada odpowiedzi: ");
+                        NapiszRoz("$odpowiedz[1]");
+                        echo "<br>";
+
+                        NapiszNieb("Niebieski ");
+                        Napisz("prostokąt odpowiada odpowiedzi: ");
+                        NapiszNieb("$odpowiedz[2]");
+                        echo "<br>";
+
+                        NapiszCzerw("Czerwony ");
+                        Napisz("prostokąt odpowiada odpowiedzi: ");
+                        NapiszCzerw("$odpowiedz[3]");
+                        echo "<br>";
+
+                        echo "<br>";
+                        Napisz("Ustaw prostokąty w odpowiedniej kolejności od lewej do prawej");
+
+                        ?>
+
+                <div class="wrapperczerwony">
+                    <div class="moveczerwony"></div>
+                </div>
+                <script src="js/czerwony.js" type="text/javascript"></script>
+
+                <div class="wrapperniebieski">
+                    <div class="moveniebieski"></div>
+                </div>
+                <script src="js/niebieski.js" type="text/javascript"></script>
+
+
+                <div class="wrapperroz">
+                    <div class="moveroz"></div>
+                </div>
+                <script src="js/roz.js" type="text/javascript"></script>
+
+                <div class="wrapperpomarancz" id="pomarancz">
+                    <div class="movepomarancz">
+                    </div>
+                </div >
+                <script src="js/pomarancz.js" type="text/javascript"></script>
+        <?php
                 break;
+
             case "prawda":
                 ?>
-                <input type="radio" name="odp" value="prawda"> <?php Napisz("prawda");?><br>
-                <input type="radio" name="odp" value="falsz"> <?php Napisz("fałsz");?><br>
+                <input type="radio" name="odp" value="prawda"> <?php echo"prawda";?><br>
+                <input type="radio" name="odp" value="falsz"> <?php echo"fałsz";?><br>
                 <?php
                 break;
         }
@@ -188,7 +310,7 @@ include('funkcje.php');
             <input type="hidden" name="poprawnaOdpowiedz" value="<?php echo$poprawnaOdpowiedz?>">
             <input type="hidden" name="punkty" value="<?php echo$iloscPktDoZdobycia?>">
             <input type="hidden" name="czyUjemne" value="<?php echo$czyUjemne?>">
-            <button type="submit">przeslij odpowiedz</button>
+            <button type="submit"  class="button">przeslij odpowiedz</button>
         </div>
         <br>
         <?php
