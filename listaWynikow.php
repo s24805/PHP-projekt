@@ -9,8 +9,7 @@ include('funkcje.php');
     <title>Lista Quizów</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="text-align: center">
-
+<body >
 <?php
 chdir("pytania");
 $listaquizow=WszystkieQuizy();
@@ -23,19 +22,12 @@ for($i=0;$i<$ilequizow;$i++){
     Napisz($opis);
     ?>
     <div>
-        <form method="get" action="przygotowanieQuizu.php" style='text-align:center'>
-            <input type="hidden"  name="StringQuizu" value="<?php echo $listaquizow[$i]?>">
+        <form method="get" action="pokazWynik.php" style='text-align:left'>
             <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
-            <button type="submit">Rozwiąż Quiz</button>
-        </form>
-    </div>
-    <div>
-        <form method="get" action="pokazSwojeWyniki.php" style='text-align:center'>
-            <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
-            <button type="submit">Pokaż swoje wyniki</button>
+            <button type="submit">Pokaż wyniki dla quizu</button>
         </form><br>
     </div>
-<?php
+    <?php
 }
 ?>
 <div>

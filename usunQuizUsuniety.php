@@ -7,6 +7,7 @@ include('funkcje.php');
     <head>
         <meta charset="UTF-8">
         <title>Lista Quizów</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body >
 <?php
@@ -28,6 +29,13 @@ for ($i = 0; $i < $lines; $i++) {
 $current = rtrim($current);
 file_put_contents($plik, $current);
 fclose($handle);
+$conn=sqlConnect();
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$sql="DROP TABLE $nazwaQuizu";
+$conn->close();
+
 Napisz("Quiz o nazwie: $nazwaQuizu został usunięty");
 ?>
 <meta http-equiv="refresh" content="2;url=stronaglowna.php" />

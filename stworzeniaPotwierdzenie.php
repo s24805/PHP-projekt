@@ -7,6 +7,7 @@ include('funkcje.php');
 <head>
     <meta charset="UTF-8">
     <title>stwórz pytanie</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body >
 <?php
@@ -26,6 +27,7 @@ include('funkcje.php');
         $pktZaPyt = intval($pieces[1]);
         $liczbaPkt += $pktZaPyt;
     }
+    $liczbaPkt=round($liczbaPkt, 2);
     $nick=$_SESSION['nick'];
     fclose($handleTenQuiz);
     $daneQuizu = $_SESSION['stringDanychQuizu'];
@@ -39,6 +41,18 @@ $quiz = new Quiz;
 $quiz->Stworz($daneQuizu);
 $opis=$quiz->Wypisz();
 Napisz("Tak wygląda stworzony quiz: <br>$opis");
+$nazwa=$quiz->getNazwa();
+$conn=sqlConnect();
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+//(email, nazwa, punkty)
+$sql = "CREATE TABLE $nazwa (
+email VARCHAR(30),
+nazwa VARCHAR(20),
+punkty INT(4)
+)";
+$conn->close();
 ?>
 
 <div>

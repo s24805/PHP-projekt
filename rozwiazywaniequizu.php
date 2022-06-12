@@ -24,7 +24,7 @@ include('funkcje.php');
         $arrayPytanStringow=$_SESSION['arrayPytanStringow'];
     }
 
-    print_r($arrayPytanStringow);
+    //print_r($arrayPytanStringow); <- sprawdzenie
     $quiz=new Quiz();
     $quiz->Stworz($stringQuizu);
     $czyUjemne=$quiz->getCzyujemne();
@@ -38,18 +38,40 @@ include('funkcje.php');
     ++$_SESSION['NrPytania'];
     $numerPytania=$_SESSION['NrPytania'];
     if($numerPytania==$iloscPytan){
-        //napisz pkty i takie tam
-        Napisz("koeniec essa");
+        $nazwaQuizu=$quiz->getNazwa();
+        Napisz("Quiz o nazwie: $nazwaQuizu skończony");
         echo "<br>";
         $aktualnePkty=$_SESSION['aktualnePunkty'];
         $zaokraglonePkty=round($aktualnePkty, 2);
         $maxymalnePkty=$_SESSION['maxymalnePkty'];
         $maxymalnePkty=round($maxymalnePkty, 2);
         Napisz("Twój wynik wynosi $zaokraglonePkty z $maxymalnePkty punktów");
+        $nick=$_SESSION['nick'];
+        $email=$_SESSION['email'];
+        $conn=sqlConnect();
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $sql= "INSERT INTO $nazwaQuizu(email, nazwa, punkty)
+        VALUES ('$email','$nick', '$aktualnePkty')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+        $conn->close();
         unset($_SESSION['aktualnePunkty']);
         unset($_SESSION['maxymalnePkty']);
+        unset($_COOKIE['pomaranczX']);
+        unset($_COOKIE['rozX']);
+        unset($_COOKIE['niebieskiX']);
+        unset($_COOKIE['czerwonyX']);
+        $_SESSION['koniecQuizu']=1;
+        echo "<br>";
         ?>
-        <button type="submit"  class="button">Pokaz wynik</button>
+        <button type="submit"  class="button">wróć</button>
         <input type="hidden" name="typPytania" value="koniec">
         <?php
     }
@@ -60,13 +82,6 @@ include('funkcje.php');
         <?php
     }
     else{
-        If($quiz->getCzas()!=0) {
-            $czasNaReset = $quiz->getCzas();
-            $numerPytania++;
-            ?>
-            <meta http-equiv="refresh" content="<?php echo$czasNaReset?>" />
-            <?php
-        }
         $numerPytaniaDlaWidza=$numerPytania+1;
         $Pytanie=$arrayPytan[$numerPytania];
         $iloscPktDoZdobycia=$Pytanie->getPunkty();
@@ -102,11 +117,12 @@ include('funkcje.php');
         Napisz($Pytanie->getPytanie());
         echo "<br>";
         $odpowiedzi=$Pytanie->getOdpowiedzi();
-            if (is_array($odpowiedzi))
+           /* if (is_array($odpowiedzi))
                 print_r($odpowiedzi);
-            echo "<br>";
+            echo "<br>";   <-sprawdzenie
+            echo "Odpowiedz poprawna wyzej <br>";
+           */
         $poprawnaOdpowiedz=$Pytanie->getPoprawnaodpowiedz();
-        echo "Odpowiedz poprawna wyzej <br>";
         switch ($typPytania) {
             case "jednokrotne":
                 //radio
@@ -194,49 +210,73 @@ include('funkcje.php');
                 break;
             case "polacz":
             case "sortuj":
+                /*
+                a) zapisuje kolejnosc poprawnych odpowiedzi
+                b) mieszam kolejnosc odpowiedzi
+                c) przypisuje kazdej odpowiedzi kolor
+                d) wracam do poprawnych odpowiedzi i zamieniam tresc poprawnej odpowiedzi na kolor jej odpowiednika z punktu c
+                e) wysylam stringa dobrych odpowiedzi w kolejnsci np róż czerwien niebieski zielen
+                 */
                         $odpowiedz=$Pytanie->getOdpowiedzi();
                         $poprawneOdpowiedi=$Pytanie->getPoprawnaodpowiedz();
                         echo "<br>";
                         $ileOdp=count($odpowiedz);
-                        for ($i = 0; $i < 4; $i++) {
-                            switch ($poprawneOdpowiedi[$i]) {
-                                case "$odpowiedz[0]":
-                                    $poprawneOdpowiediKolor[$i] = "pomarancz";
-                                    break;
-                                case "$odpowiedz[1]":
-                                    $poprawneOdpowiediKolor[$i] = "roz";
-                                    break;
-                                case "$odpowiedz[2]":
-                                    $poprawneOdpowiediKolor[$i] = "niebieski";
-                                    break;
-                                case "$odpowiedz[3]":
-                                    $poprawneOdpowiediKolor[$i] = "czerwony";
-                                    break;
+
+                        //kork a dla polacz, bo dla sortuj jest juz zrobiony domyslnie
+                        if($typPytania=="polacz") {
+                            for ($i = 0; $i < $ileOdp; $i++) {
+                                $poprawneOdpowiediDopasowanie[] = $poprawneOdpowiedi[$i];
                             }
                         }
-                        $poprawnaOdpowiedz="$poprawneOdpowiediKolor[0] $poprawneOdpowiediKolor[1] $poprawneOdpowiediKolor[2] $poprawneOdpowiediKolor[3]";
 
-                        //mieszam poprawne odpowiedzi
+                        //krok b
                         for ($i = 0; $i < 68; $i++) {
                             $randomLiczba1 =rand(0, $ileOdp - 1);
                             $randomLiczba2 =rand(0, $ileOdp - 1);
                             $temp = $odpowiedz[$randomLiczba1];
-                            if($typPytania=="polacz"){
-                                //pierwsze rzeczy do dopasowania beda mialy stala kolejnosc, zmieni sie kolejnosc odpowiedzi do dopasowania
-                                $odpowiedz[$randomLiczba1] = $odpowiedz[$randomLiczba2];
-                                $odpowiedz[$randomLiczba2] = $temp;
-                            }
-                            else {
-                                $odpowiedz[$randomLiczba1] = $odpowiedz[$randomLiczba2];
-                                $odpowiedz[$randomLiczba2] = $temp;
+                            //w przypadku dopasuj: pierwsze rzeczy do dopasowania beda mialy stala kolejnosc, zmieni sie kolejnosc odpowiedzi do dopasowania
+                            $odpowiedz[$randomLiczba1] = $odpowiedz[$randomLiczba2];
+                            $odpowiedz[$randomLiczba2] = $temp;
+
+                        }
+
+                        //krok c
+                        for ($i = 0; $i < 4; $i++) {
+                            switch ($odpowiedz[$i]) {
+                                case "$odpowiedz[0]":
+                                    $OdpowiediKolor[$i] = "pomarancz";
+                                    break;
+                                case "$odpowiedz[1]":
+                                    $OdpowiediKolor[$i] = "roz";
+                                    break;
+                                case "$odpowiedz[2]":
+                                    $OdpowiediKolor[$i] = "niebieski";
+                                    break;
+                                case "$odpowiedz[3]":
+                                    $OdpowiediKolor[$i] = "czerwony";
+                                    break;
                             }
                         }
-                        if($typPytania=="sortuj"){
-                            $pomarancz=$odpowiedz[0];
-                            $roz=$odpowiedz[1];
-                            $niebieski=$odpowiedz[2];
-                            $czerwony=$odpowiedz[3];
+
+                        //krok d
+                        for ($i = 0; $i < 4; $i++) {
+                            switch ($poprawneOdpowiedi[$i]) {
+                                case "$odpowiedz[0]":
+                                    $OdpowiediKolor[$i] = "pomarancz";
+                                    break;
+                                case "$odpowiedz[1]":
+                                    $OdpowiediKolor[$i] = "roz";
+                                    break;
+                                case "$odpowiedz[2]":
+                                    $OdpowiediKolor[$i] = "niebieski";
+                                    break;
+                                case "$odpowiedz[3]":
+                                    $OdpowiediKolor[$i] = "czerwony";
+                                    break;
+                            }
                         }
+                        $poprawnaOdpowiedz="$OdpowiediKolor[0] $OdpowiediKolor[1] $OdpowiediKolor[2] $OdpowiediKolor[3]";
+
 
                         echo "<br>";
                         NapiszPom("Pomarańczowy ");
@@ -260,44 +300,96 @@ include('funkcje.php');
                         echo "<br>";
 
                         echo "<br>";
-                        Napisz("Ustaw prostokąty w odpowiedniej kolejności od lewej do prawej");
+                        if($typPytania=="sortuj")
+                            Napisz("Ustaw prostokąty w odpowiedniej kolejności od lewej do prawej");
+                        else
+                            Napisz("Dopasuj podane elementy do odpowiednich części");
+                        echo "<br>";
+                        Napisz("Szybkie ruchy myszką podczas ruszania prostokątem mogą skutkować nienadążaniem prostokąta za kursorem");
+                        //echo "$poprawnaOdpowiedz"; <-sprawdzenie
 
+                        if($typPytania=="polacz"){
+                            ?>
+
+                                <div class="Lewy">
+                                    <?php
+                                    Napisz("Odpowiedź dla:$poprawneOdpowiediDopasowanie[0]");
+                                    ?>
+                                </div>
+                                <div class="srodekLewy">
+                                    <?php
+                                    echo "Odpowiedź dla:$poprawneOdpowiediDopasowanie[1]";
+                                    ?>
+                                </div>
+                            <div class="srodekPrawy">
+                                    <?php
+                                    echo "Odpowiedź dla:$poprawneOdpowiediDopasowanie[2]";
+                                    ?>
+                                </div>
+                                <div class="Prawy">
+                                    <?php
+                                    Napisz("Odpowiedź dla:$poprawneOdpowiediDopasowanie[3]");
+                                    ?>
+                                </div>
+                            <?php
+                            }
                         ?>
+                        <div class="wrapperczerwony">
+                            <div class="moveczerwony"></div>
+                        </div>
+                        <script src="js/czerwony.js" type="text/javascript"></script>
 
-                <div class="wrapperczerwony">
-                    <div class="moveczerwony"></div>
-                </div>
-                <script src="js/czerwony.js" type="text/javascript"></script>
-
-                <div class="wrapperniebieski">
-                    <div class="moveniebieski"></div>
-                </div>
-                <script src="js/niebieski.js" type="text/javascript"></script>
+                        <div class="wrapperniebieski">
+                            <div class="moveniebieski"></div>
+                        </div>
+                        <script src="js/niebieski.js" type="text/javascript"></script>
 
 
-                <div class="wrapperroz">
-                    <div class="moveroz"></div>
-                </div>
-                <script src="js/roz.js" type="text/javascript"></script>
+                        <div class="wrapperroz">
+                            <div class="moveroz"></div>
+                        </div>
+                        <script src="js/roz.js" type="text/javascript"></script>
 
-                <div class="wrapperpomarancz" id="pomarancz">
-                    <div class="movepomarancz">
-                    </div>
-                </div >
-                <script src="js/pomarancz.js" type="text/javascript"></script>
-        <?php
-                break;
+                        <div class="wrapperpomarancz" id="pomarancz">
+                            <div class="movepomarancz">
+                            </div>
+                        </div >
+                        <script src="js/pomarancz.js" type="text/javascript"></script>
+                    <?php
+                            break;
 
-            case "prawda":
-                ?>
-                <input type="radio" name="odp" value="prawda"> <?php echo"prawda";?><br>
-                <input type="radio" name="odp" value="falsz"> <?php echo"fałsz";?><br>
-                <?php
-                break;
-        }
-        ?>
+                        case "prawda":
+                            ?>
+                            <input type="radio" name="odp" value="prawda"> <?php echo"prawda";?><br>
+                            <input type="radio" name="odp" value="falsz"> <?php echo"fałsz";?><br>
+                            <?php
+                            break;
+                    }
+                        If($quiz->getCzas()!=0) {
+                        $czasNaReset = $quiz->getCzas();
+                        $_COOKIE['czasResetu']=intval($czasNaReset);
+                        echo $_COOKIE['czasResetu'];
+                            ?>
+                            <div id="countdown"></div>
+                            <script>
+                                var timeleft = getCookie("czasResetu");
+                                var downloadTimer = setInterval(function(){
+                                    if(timeleft <= 0){
+                                        clearInterval(downloadTimer);
+                                        document.getElementById("countdown").innerHTML = "Finished";
+                                    } else {
+                                        document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+                                    }
+                                    timeleft -= 1;
+                                }, 1000);
+                            </script>
+                            <script src="js/timer.js" type="text/javascript"></script>
+                            <meta http-equiv="refresh" content="<?php echo$czasNaReset?>;url=rozwiazywanieDodajOdp.php"/>
+                        <?php
+                         }
+                    ?>
 
-        <div>
+            <div>
             <?php
             if($typPytania=="dziury"){
                 ?>
@@ -311,10 +403,10 @@ include('funkcje.php');
             <input type="hidden" name="punkty" value="<?php echo$iloscPktDoZdobycia?>">
             <input type="hidden" name="czyUjemne" value="<?php echo$czyUjemne?>">
             <button type="submit"  class="button">przeslij odpowiedz</button>
-        </div>
-        <br>
-        <?php
-    }
+            </div>
+            <br>
+            <?php
+         }
     ?>
 </form>
 </body>
