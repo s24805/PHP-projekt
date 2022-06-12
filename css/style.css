@@ -1,0 +1,96 @@
+body {
+	background-color:rgb(35, 35, 35);
+	color:#7cfc00;
+}
+.button{
+background-color: #4CAF50; /* Green */
+  border: 2px solid #4CAF50;
+  color: blue;
+  padding: 15px 32px;
+  text-align: center;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+.srodekLewy{
+    position: absolute;
+	left: 700px;
+    top: 400px;
+}
+.srodekPrawy{
+    position: absolute;
+	left: 1100px;
+    top: 400px;
+}
+.Prawy{
+	position: absolute;    
+    left: 1500px;
+    top: 400px;
+}
+.Lewy{
+	position: absolute;
+    left: 300px;
+    top: 400px;
+}
+.wrapperczerwony {
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+
+.moveczerwony {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 1200px;
+    top: 600px;
+    background-color: #FF5242;
+}
+.wrapperniebieski {
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+
+.moveniebieski {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 1000px;
+    top: 600px;
+    background-color: #8296FF;
+}
+.wrappepomarancz {
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+
+.movepomarancz {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 600px;
+    top: 600px;
+    background-color: #FFA642;
+}
+.wrapperroz {
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+
+.moveroz {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 800px;
+    top: 600px;
+    background-color: #FF8EFB;
+}
