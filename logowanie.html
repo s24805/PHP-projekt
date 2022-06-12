@@ -7,17 +7,18 @@ session_start()
 <head>
     <meta charset="UTF-8">
     <title>Logowanie</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="background-color:rgb(35, 35, 35);">
+<body style="text-align: center">
 <form action="logowanie.php" method="GET" >
     <label>Podaj email i haslo<br>
         <input type="text" id="email" name="email" placeholder="email"><br>
         <input type="password" id="haslo" name="haslo" placeholder="haslo">
-    </label>
-    <input type="submit" value="zaloguj" /><br>
-</form>
+    </label><br><br>
+    <input type="submit"class="button" value="zaloguj" /><br>
+</form><br>
 <form action="stronaglowna.php">
-    <input type="submit" value="powrut" />
+    <input type="submit" class="button" value="powrut" />
 </form>
 </body>
 </html>

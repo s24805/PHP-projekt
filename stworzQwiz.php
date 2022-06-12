@@ -7,11 +7,12 @@ include('funkcje.php');
 <head>
     <meta charset="UTF-8">
     <title>stwórz quiz</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
-<body >
-<form method="get" action="stworzPytania.php" style='text-align:left'>
-<label>Podaj Tytuł quizu
-    <input type="text"  name="nazwa" minlength="2" required><br>
+<body style="text-align: center">
+<form method="get" action="stworzPytania.php" style='text-align:center'>
+<label>Podaj Tytuł quizu (moze zawierac tylko litery i cyfry)
+    <input type="text"  name="nazwa" minlength="2" maxlength="20" required pattern="^[a-zA-Z0-9_-]*$"><br>
 </label>
     <?php
     Napisz("Zajęte nazwy quizów: <br>");
@@ -23,6 +24,7 @@ include('funkcje.php');
         $quiz->Stworz($listaquizow[$i]);
         $nazwa = $quiz->getNazwa();
         Napisz($nazwa);
+        echo "<br>";
     }
     ?>
 
@@ -54,12 +56,12 @@ include('funkcje.php');
 </select>
 </label>
 
-    <br><button type="submit" name="dalej">Przejdz do tworzenia pytań</button>
+    <br><button type="submit" name="dalej" class="button-chudy">Przejdz do tworzenia pytań</button>
 <br>
 </form>
-    <form method="get" action="stronaglowna.php" style='text-align:left'>
+    <form method="get" action="stronaglowna.php"  >
     <div>
-    <button type="submit">powrót</button>
+    <button type="submit" class="button-chudy">powrót</button>
     </form><br>
 </div>
 </body>

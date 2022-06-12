@@ -7,6 +7,7 @@ include('funkcje.php');
     <head>
         <meta charset="UTF-8">
         <title>Lista Quizów</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body >
     <?php
@@ -25,7 +26,7 @@ include('funkcje.php');
             <form method="get" action="usunQuizNaPewno.php" style='text-align:left'>
                 <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
                 <input type="hidden"  name="StringQuizu" value="<?php echo $stringDoPrzekazania?>">
-                <button type="submit">usuń Quiz</button>
+                <button type="submit" class="button-chudy">usuń Quiz</button>
             </form><br>
         </div>
         <?php
@@ -33,7 +34,7 @@ include('funkcje.php');
     ?>
     <div>
         <form method="get" action="stronaglowna.php" style='text-align:center'>
-            <button type="submit">Powróć do strony głownej</button>
+            <button type="submit" class="button-chudy">Powróć do strony głownej</button>
         </form><br>
     </div>
     </body>

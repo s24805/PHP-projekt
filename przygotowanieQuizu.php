@@ -7,14 +7,17 @@ include('funkcje.php');
 <html lang="en">
 <head>
     <title>quiz</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<div>
+    <form method="get" action="rozwiazywaniequizu.php" style='text-align:center'>
 <?php
 chdir("pytania");
-$string=$_GET['StringQuizu'];
+$stringQuizu=$_GET['StringQuizu'];
 $NazwaQuizu=$_GET['NazwaQuizu'];
 $quiz = new Quiz;
-$quiz->Stworz($string);
+$quiz->Stworz($stringQuizu);
 $email=$_SESSION['email'];
 $NazwaQuizutxt="$NazwaQuizu.txt";
 $wsrodku = file_get_contents($NazwaQuizutxt);
@@ -35,41 +38,51 @@ if($quiz->getCzylosodp()=="losoweodp"){
         $pytanieClass = new Pytanie;
         $pytanieClass->stworz($pytanie);
         $ileOdp=$pytanieClass->getOdpowiedzi();
+        $typPytania=$pytanieClass->getTyp();
         if(is_array($ileOdp)){
             $ileOdp=count($ileOdp);
         }
         else
             $ileOdp=1;
-        if($ileOdp!=1) {
-            $arrayPytania= explode("]", $wsrodku);
-            for ($i = 0; $i < 68; $i++) {
-                $randomLiczba1 = rand(0, $ileOdp - 1);
-                $randomLiczba2 = rand(0, $ileOdp - 1);
-                $temp = $arrayOdpowiedzi[$randomLiczba1];
-                $arrayOdpowiedzi[$randomLiczba1] = $arrayOdpowiedzi[$randomLiczba2];
-                $arrayOdpowiedzi[$randomLiczba2] = $temp;
-            }
+        if($ileOdp==1 || $typPytania=="polacz" || $typPytania=="sortuj"){
+            //nic nie rob bo if($ileOdp!=1 || $typPytania!="polacz" || $typPytania!="sortuj")  nie dzialal
         }
+        else{
+            $arrayPytania= explode("]", $pytanie);
+            $ostatni=count($arrayPytania)-1;
+            for ($i = 0; $i < 68; $i++) {
+                $randomLiczba1 =3+ rand(0, $ileOdp - 1);
+                $randomLiczba2 =3+ rand(0, $ileOdp - 1);
+                $temp = $arrayPytania[$randomLiczba1];
+                $arrayPytania[$randomLiczba1] = $arrayPytania[$randomLiczba2];
+                $arrayPytania[$randomLiczba2] = $temp;
+            }
+            $pytanie="$arrayPytania[0]]$arrayPytania[1]]$arrayPytania[2]]";//typ pytania ] ilosc pktow ] tresc pytania zawsze beda na stalym m9ejscu
+            for($i=3;$i<$ostatni;$i++){
+                $pytanie.="$arrayPytania[$i]]";
+            }
+            $pytanie.="$arrayPytania[$ostatni]";
+        }?>
+        <input type="hidden" name="Pytania[]" value="<?php echo$pytanie?>">
+        <?php
     }
 }
-$_SESSION['NrPytania']=0;
-$_SESSION['liczbaPktow']=0;
+$_SESSION['NrPytania']=-1;
 //$_SESSION['ArrayPytan']=$arrayPytan;
-$_SESSION['Quiz']=$quiz;
+//$_SESSION['Quiz']=$quiz;
+Napisz("Czy na pewno chcesz rozwiązać podany quiz?");
+echo "<br>";
+WypiszDanyQuiz($NazwaQuizu)
 ?>
-<div>
-    <form method="get" action="rozwiazywaniequizu.php" style='text-align:center'>
-        <?php
-        foreach($arrayPytan as $pytanie)
-        {
-            ?>
-            <input type="hidden" name="Pytania[]" value="<?php echo$pytanie?>">
-        <?php
-        }
-        ?>
-        <meta http-equiv="refresh" content="0;url=rozwiazywaniequizu.php" />
-    <label>jd dziwke</label>
-    </form><br>
+        <br>
+        <input type="hidden" name="$stringQuizu" value="<?php echo$stringQuizu?>">
+        <button type="submit" class="button-chudy">Rozwiąż</button>
+    </form>
+    <div>
+        <form style='text-align:center'>
+            <input type="button" value="Anuluj" class="button-chudy" onclick="history.back()" >
+        </form>
+    </div>
 </div>
 </body>
 </html>

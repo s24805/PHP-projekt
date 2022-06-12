@@ -7,9 +7,10 @@ include('funkcje.php');
 <head>
     <meta charset="UTF-8">
     <title>stwórz pytanie</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body >
-    <form method="get" action="stworzOdpowiedzi.php" style='text-align:left'>
+    <form method="get" action="stworzOdpowiedzi.php" style='text-align:center'>
 
         <?php
         if(!isset($_SESSION['1wszePytZrob'])){
@@ -53,8 +54,8 @@ include('funkcje.php');
         <label>Ilość punktów za poprawną odpowieź
             <input type="number"  name="pkty" min="1" required><br>
         </label><br>
-        <button name="dalej" type="submit">przejdz do tworzenia odpowiedzi</button>
-    </form>
+        <button name="dalej" type="submit" class="button-chudy">przejdz do tworzenia odpowiedzi</button><br>
+
     <?php
             }
         }
@@ -79,14 +80,15 @@ include('funkcje.php');
     <label>Ilość punktów za poprawną odpowieź
         <input type="number"  name="pkty" min="1" required><br>
     </label><br>
-        <button name="dalej" type="submit">przejdz do tworzenia odpowiedzi</button>
+        <button name="dalej" type="submit" class="button-chudy" >przejdz do tworzenia odpowiedzi</button><br>
     </form>
     <?php
     }
     ?>
     <div>
-        <form style='text-align:left'>
-            <input type="button" value="Wróć"  onclick="history.back()" >
+        <form>
+            <br>
+            <input type="button" value="Wróć" class="button-chudy" onclick="history.back()" >
         </form><br>
     </div>
 </body>

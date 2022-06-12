@@ -1,6 +1,16 @@
 <?php
 session_start();
 include('funkcje.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Quizów</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="text-align: center">
+<?php
 $myfile = fopen("loginy.txt", "r") or die("Unable to open file!");
 $logihasl= file_get_contents("loginy.txt");
 $linie = explode("\n", $logihasl);
@@ -18,16 +28,25 @@ for($i=0;$i<$lines;$i++){
     }
 }
 if($ok=="siadlo"){
-    napisz("$nick - zalogowano poprawnie");
+    Napisz("$nick - zalogowano poprawnie");
     echo "<br>";
-     $okeika="<a href='stronaglowna.php' title='powrut'> wroc do strony</a>";
-     napisz($okeika);
+    ?>
+    <form method="get" action="stronaglowna.php" style='text-align:center'>
+        <button type="submit" class="button">Powrót</button>
+    </form><br>
+    <?php
     $_SESSION['email']=$email;
     $_SESSION['nick']=$nick;
 }
 else{
-    echo "login lub haslo niepoprawne<br>";
-    echo "<a href='logowanie.html' title='powrut'>wroc do strony</a>";
+    Napisz( "login lub haslo niepoprawne<br>");
+    ?>
+    <form method="get" action="logowanie.html" style='text-align:center'>
+        <button type="submit" class="button">Powrót</button>
+    </form><br>
+    <?php
 
 }
-
+?>
+</body>
+</html>

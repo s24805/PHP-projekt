@@ -6,6 +6,7 @@ session_start();
     <head>
         <meta charset="UTF-8">
         <title>Zmiana hasla lub nicku</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body style="background-color:rgb(35, 35, 35);">
     <form action="" method="GET" >

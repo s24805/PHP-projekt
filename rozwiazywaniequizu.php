@@ -48,6 +48,11 @@ include('funkcje.php');
         Napisz("Twój wynik wynosi $zaokraglonePkty z $maxymalnePkty punktów");
         $nick=$_SESSION['nick'];
         $email=$_SESSION['email'];
+        echo "<br>";
+        ?>
+        <button type="submit"  class="button-chudy">wróć</button>
+        <input type="hidden" name="typPytania" value="koniec">
+        <?php
         $conn=sqlConnect();
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
@@ -70,10 +75,7 @@ include('funkcje.php');
         unset($_COOKIE['czerwonyX']);
         $_SESSION['koniecQuizu']=1;
         echo "<br>";
-        ?>
-        <button type="submit"  class="button">wróć</button>
-        <input type="hidden" name="typPytania" value="koniec">
-        <?php
+
     }
     else if($numerPytania>$iloscPytan){
         ?>

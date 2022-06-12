@@ -9,7 +9,7 @@ include('funkcje.php');
     <title>stwórz pytanie</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
-<body >
+<body style="text-align: center">
 <?php
     unset($_SESSION['1wszePytZrob']);
     chdir("pytania");
@@ -42,6 +42,15 @@ $quiz->Stworz($daneQuizu);
 $opis=$quiz->Wypisz();
 Napisz("Tak wygląda stworzony quiz: <br>$opis");
 $nazwa=$quiz->getNazwa();
+unset($_SESSION['1wszePytZrob']);
+?>
+
+<div>
+    <form method="get" action="stronaglowna.php" style='text-align:center'>
+        <button class="button" type="submit">Menu</button>
+    </form><br>
+</div>
+<?php
 $conn=sqlConnect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -55,10 +64,5 @@ punkty INT(4)
 $conn->close();
 ?>
 
-<div>
-    <form method="get" action="stronaglowna.php" style='text-align:center'>
-        <button type="submit">Menu</button>
-    </form><br>
-</div>
 </body>
 </html>

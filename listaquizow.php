@@ -26,13 +26,13 @@ for($i=0;$i<$ilequizow;$i++){
         <form method="get" action="przygotowanieQuizu.php" style='text-align:center'>
             <input type="hidden"  name="StringQuizu" value="<?php echo $listaquizow[$i]?>">
             <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
-            <button type="submit">Rozwiąż Quiz</button>
+            <button type="submit" class="button-chudy">Rozwiąż Quiz</button>
         </form>
     </div>
     <div>
         <form method="get" action="pokazSwojeWyniki.php" style='text-align:center'>
             <input type="hidden"  name="NazwaQuizu" value="<?php echo $nazwa?>">
-            <button type="submit">Pokaż swoje wyniki</button>
+            <button type="submit" class="button-chudy">Pokaż swoje wyniki</button>
         </form><br>
     </div>
 <?php
@@ -40,7 +40,7 @@ for($i=0;$i<$ilequizow;$i++){
 ?>
 <div>
     <form method="get" action="stronaglowna.php" style='text-align:center'>
-        <button type="submit">Powróć do strony głownej</button>
+        <button type="submit" class="button-chudy">Powróć do strony głownej</button>
     </form><br>
 </div>
 </body>

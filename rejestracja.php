@@ -1,29 +1,64 @@
 <?php
 session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="text-align: center">
+<?php
 $trescpliku = file_get_contents("loginy.txt");
 $fp = fopen('loginy.txt', 'a');
 $linia = explode("\n", $trescpliku);
-$_SESSION['email'] = $_GET['email'];
-$_SESSION['nick'] = trim($_GET['nick'] , " ");
-$_SESSION['haslo'] =$_GET['haslo'];
-$lines = count(file("loginy.txt"));
+$email = $_GET['email'];
+$nick = trim($_GET['nick'] , " ");
+$haslo =$_GET['haslo'];
+$lines = count($linia);
 $ok="jeszcze nie ma podanegho maila zarejestrowanego";
 for($i=0;$i<$lines;$i++){
-    $linia = explode(" ", $linia[$i]);
-    if($linia[0]==$_SESSION['email']){
+    $arrayLinia = explode(" ", $linia[$i]);
+    if($arrayLinia[0]==$email){
         $ok="juz jest";
         break;
     }
 }
 if($ok=="juz jest"){
     echo "ten email jest juz zarejestrowany, prosze podac inny<br>";
-    echo "<a href='rejestracja.html' title='powrut'>wroc do strony</a>";
+    ?>
+    <div>
+        <form method="get" action="rejestracja.html">
+            <button type="submit" class="button">wroc do strony</button>
+        </form><br>
+    </div>
+    <?php
 }
-else if(strlen($_SESSION['nick'])>20 || strlen($_SESSION['nick'])<4){
+else if(strlen($nick)>20 || strlen($nick)<4){
     echo "nick jest niepoprawny<br>";
-    echo "<a href='rejestracja.html' title='powrut'>wroc do strony</a>";
+    ?>
+    <div>
+        <form method="get" action="rejestracja.html">
+            <button type="submit" class="button">wroc do strony</button>
+        </form><br>
+    </div>
+    <?php
+}
+else if(strlen($haslo)>15 || strlen($haslo)<6){
+    echo "haslo jest niepoprawne<br>";
+    ?>
+    <div>
+        <form method="get" action="rejestracja.html">
+            <button type="submit" class="button">wroc do strony</button>
+        </form><br>
+    </div>
+    <?php
 }
 else {
+    $_SESSION['email'] = $_GET['email'];
+    $_SESSION['nick'] = trim($_GET['nick'] , " ");
+    $_SESSION['haslo'] =$_GET['haslo'];
     $_SESSION['admin']="0";
     fwrite($fp, "\n");
     fwrite($fp, $_SESSION['email']);
@@ -35,7 +70,15 @@ else {
     fwrite($fp, "0");//0 wskazuje iz podany uzytkownik nie jest administratorem (wartosc 1, gdy jest adminem)
     fclose($fp);
     echo "zarejestrowano<br>";
-    echo "<a href='stronaglowna.php' title='powrut'>wroc do strony</a>";
-
+    ?>
+    <div>
+        <form method="get" action="stronaglowna.php">
+            <button type="submit" class="button">wroc do strony glownej</button>
+        </form><br>
+    </div>
+    <?php
 
 }
+?>
+</body>
+</html>

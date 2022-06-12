@@ -7,18 +7,19 @@ session_start()
 <head>
     <meta charset="UTF-8">
     <title>Rejestracja</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="background-color:rgb(35, 35, 35);">
-<form action="rejestracja.php" method="GET" >
+<body>
+<form action="rejestracja.php" method="GET" style="text-align: center">
     <label>Zarejestruj sie</label><br>
-    <label>Podaj nick (bez spacji, od 4 do 20 znakow),email i haslo(od 6 do 10 pozycji, coanjmniej 1 znak specjalny, conajmniej 1 wielka litera)<br></label>
-    <input type="text" id="nick" name="nick" placeholder="nick"  required><br>
-    <input type="text" id="email" name="email" placeholder="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+    <label>Podaj nick (tylko litery i cyfry, od 4 do 20 znakow),email (max 30 znakow) i haslo(od 6 do 15 pozycji, coanjmniej 1 znak specjalny, conajmniej 1 wielka litera)<br></label>
+    <input type="text" id="nick" name="nick" placeholder="nick" pattern="^[a-zA-Z0-9_-]*$"  required >
+    <input type="text" id="email" name="email" placeholder="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="30" required>
     <input type="text" id="haslo" name="haslo" placeholder="haslo" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{6,10}$" required>
 
-    <input type="submit" value="ić" /><br>
+    <input type="submit" value="rejestracja" /><br>
 </form>
-<form action="stronaglowna.php">
+<form action="stronaglowna.php" style="text-align: center">
     <input type="submit" value="powrut" />
 </form>
 </body>

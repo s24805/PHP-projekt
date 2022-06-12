@@ -7,8 +7,9 @@ include('funkcje.php');
     <head>
         <meta charset="UTF-8">
         <title>Lista Quizów</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body >
+    <body style="text-align: center">
     <?php
     $StringQuizu=$_GET['StringQuizu'];
     $nazwaQuizu = $_GET['NazwaQuizu'];
@@ -21,13 +22,13 @@ include('funkcje.php');
     //Napisz("ma zostać usunięty?");
     ?>
     <div>
-        <form style='text-align:left'>
-            <input type="button" value="Anuluj"  onclick="history.back()" >
+        <form style='text-align:center'>
+            <input type="button" value="Anuluj" class="button-chudy" onclick="history.back()" >
         </form>
     </div>
     <div>
-        <form method="get" action="usunQuizUsuniety.php" style='text-align:left'>
-            <input name="usun" type="submit" value="Tak,usuń" >
+        <form method="get" action="usunQuizUsuniety.php" style='text-align:center'>
+            <input name="usun" type="submit" class="button-chudy" value="Tak,usuń" >
             <input name="nazwa" type="hidden" value="<?php echo $nazwaQuizu?>" >
         </form><br>
     </div>

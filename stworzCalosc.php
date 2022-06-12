@@ -7,6 +7,7 @@ include('funkcje.php');
     <head>
         <meta charset="UTF-8">
         <title>stwórz pytanie</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body >
 <?php
@@ -120,7 +121,7 @@ else if($typPyt=="prawda"){
 else {
     Napisz("Podany typ pytania jest niepoprawny: $typPyt. Skontaktuj sie z adminem pozdrawiam");
 }
-echo $wynik;
+//echo $wynik;
 $_SESSION['1wszePytZrob']="jest";
     $wynik=trim($wynik, "\n");
     chdir("pytania");
@@ -148,12 +149,12 @@ $_SESSION['1wszePytZrob']="jest";
 
 <div>
     <form method="get" action="stworzPytania.php" style='text-align:center'>
-        <button type="submit">Stworz kolejne pytanie</button>
+        <button type="submit" class="button">Stworz kolejne pytanie</button>
     </form><br>
 </div>
 <div>
     <form method="get" action="stworzeniaPotwierdzenie.php" style='text-align:center'>
-        <button name="koncztoturku" type="submit">Zakoncz tworzenie quizu</button>
+        <button name="koncztoturku" type="submit"  class="button">Zakoncz tworzenie quizu</button>
 
     </form><br>
 </div>

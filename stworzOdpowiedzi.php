@@ -7,6 +7,7 @@ include('funkcje.php');
 <head>
     <meta charset="UTF-8">
     <title>stwórz pytanie</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body >
 <form method="get" action="stworzCalosc.php" style='text-align:center'>
@@ -104,9 +105,9 @@ else if($_GET['typPyt']=="lista"){
 }
 else if($_GET['typPyt']=="dziury") {
 ?>
-    <label>Podaj odpowiedz, w miejsca w ktroych nie ma byc litery zaznacz "_", np. Ro_e__ Ku__ca
+    <label>Podaj odpowiedz
         <input type="text"  name="odp1"  required>Odpowiedź<br>
-        <label>Podaj liczby oddzielone spacjami, które odpowiadają odpowienim literom, np 3 5 6 10 11</label>
+        <label>Podaj liczby oddzielone spacjami, które odpowiadają odpowienim literom, np 3 5 6 10 11. Pamietaj,ze pierwsza litera jest pod numerem 0</label>
         <input type="text"  name="cyfry" pattern="[0-9 ]+" required>Odpowiedź<br>
     </label>
 <?php
@@ -177,12 +178,12 @@ else  {
 }
 ?>
 <div>
-        <button type="submit">Dalej</button>
+        <button type="submit" class="button-chudy">Dalej</button>
 </div>  </form>
 <br>
 <div>
     <form style='text-align:center'>
-        <input type="button" value="Wróć"  onclick="history.back()" >
+        <input type="button" value="Wróć" class="button-chudy" onclick="history.back()" >
     </form><br>
 </div>
 <?php

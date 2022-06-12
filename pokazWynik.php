@@ -9,7 +9,7 @@ include('funkcje.php');
     <title>Wyniki</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
-<body >
+<body style="text-align: center ">
 <?php
 $nazwaQuizu=$_GET['NazwaQuizu'];
 $conn=sqlConnect();

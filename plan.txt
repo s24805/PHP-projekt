@@ -33,3 +33,17 @@ $_SESSION:
 	$_SESSION['typPytania']=$_GET['typPyt'];
 	$_SESSION['typPytania']=$_GET['typPyt'];
 	$_SESSION['pktZaPyt']=$_GET['pkty'];
+	
+latajace kwadraty:
+a) zapisuje kolejnosc poprawnych odpowiedzi
+b) mieszam kolejnosc odpowiedzi
+c) przypisuje kazdej odpowiedzi kolor
+d) wracam do poprawnych odpowiedzi i zamieniam tresc poprawnej odpowiedzi na kolor jej odpowiednika z punktu c
+e) wysylam stringa dobrych odpowiedzi w kolejnsci np róż czerwien niebieski zielen
+
+sql tablica wyglad:
+$sql = "CREATE TABLE $nazwa (
+email VARCHAR(30),
+nazwa VARCHAR(20),
+punkty INT(4)
+)";
