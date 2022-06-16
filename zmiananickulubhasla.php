@@ -12,15 +12,10 @@ session_start();
     <form action="" method="GET" >
         <label>Podaj nowy nick lub nowe haslo (mozna tez zmienic obydwa na raz, nick bez spacji, od 4 do 20 znakow, haslo musi zawierac od 6 do 10 pozycji, coanjmniej 1 znak specjalny, conajmniej 1 wielka litera)<br>
             <input type="text" id="haslo" name="haslo" placeholder="haslo" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+-]).{6,10}$">
-            <input type="text" id="nick" name="nick" placeholder="nick"><br>
-            <input type="submit" name="zmien" value="ić" /><br>
+            <input type="text" id="nick" name="nick" placeholder="nick">
+            <input type="submit" name="zmien" value="zmien" class="button-chudy"><br>
         </label>
     </form>
-    <div>
-        <form style='text-align:left'>
-            <input type="button" value="Anuluj"  onclick="history.back()" >
-        </form><br>
-    </div>
 <?php
 if(isset($_GET['zmien'])) {
     $ok = 1;
@@ -67,9 +62,11 @@ if(isset($_GET['zmien'])) {
         echo "wartosci zostaly poprawnie zmienione<br>";
 
     }
-    echo "<a href='stronaglowna.php' title='powrut'>wroc do strony</a>";
 }
 ?>
+    <form action="stronaglowna.php" style="text-align: left">
+        <button type="submit" class="button-chudy">wróć</button>
+    </form>
 </body>
 </html>
 
