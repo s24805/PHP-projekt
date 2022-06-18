@@ -21,7 +21,7 @@ unset($_SESSION['MamyPrzynajmniej1pytanie']);
         Your browser does not support the audio element.
     </audio>
 
-    <div>
+    <div style="text-align: center">
         <img src="quis.png" alt="quis png">
     </div>
 
@@ -61,12 +61,6 @@ unset($_SESSION['MamyPrzynajmniej1pytanie']);
      <div>
         <form method="get" action="zmiananickulubhasla.php" style='text-align:center'>
             <button type="submit" class="button">Zmien haslo lub nick</button>
-        </form><br>
-    </div>
-
-    <div>
-        <form method="get" action="pokazSwojeWyniki.php" style='text-align:center'>
-            <button type="submit" class="button">Pokaz swoje wyniki</button>
         </form><br>
     </div>
 
