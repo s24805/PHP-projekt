@@ -1,0 +1,5 @@
+jednokrotne]1]Jak ma na imie twoj straY?]Moj Stary]jd1]jd2]jd3]Moj Stary
+wielokrotne]2]Jak ma na imie twoj straY?]jd]jd1]jd2]jd3]jd1 jd2 jd3
+prawda]2]Jak ma na imie twoj straY?]falsz
+dziury]2]Jak ma na imie twoj straY?]Moj Stary]0 1 2
+wpisz]2]Jak ma na imie twoj straY?]Moj Stary

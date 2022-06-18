@@ -1,22 +1,76 @@
 body {
 	background-color:rgb(35, 35, 35);
-	color:#7cfc00;
+	color:#4CAF50;
+	background-image: linear-gradient(to right, rgb(60, 60, 60),rgb(35, 35, 35),black);
+	
+}
+::placeholder { 
+  color: #4CAF50;
+  background-color:rgb(64, 64, 64);
+}
+input{
+	color: #4CAF50;
+	background-color: rgb(64, 64, 64);
+  border-color: #4CAF50;
+}
+.field_set{
+  border-color: #4CAF50;
+  border-style: solid;
+}
+select {
+  color: #4CAF50;
+  padding: 5px 16px;
+  border-style: groove;
+  border-radius: 2px;
+  border-color: #4CAF50;
+  background-color: rgb(64, 64, 64);
+}
+input[type="checkbox"] {
+  filter: invert(200%) hue-rotate(30deg) brightness(1.7);
+}
+input[type="radio"] {
+  filter: invert(200%) hue-rotate(30deg) brightness(1.7);
+}
+
+.button-chudy {
+  background-color: #4CAF50;
+  border-radius: 100px;
+  color: rgb(35, 35, 35);
+  cursor: pointer;
+  display: inline-block;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  box-shadow: #267F00 0 -6px 8px inset;
+}
+
+.button-chudy:hover {
+  color: white;
+  transform: scale(1.05) rotate(-2deg);
 }
 .button{
-background-color: #4CAF50; /* Green */
+  cursor: pointer;
+  background-color: #4CAF50; 
   border: 2px solid #4CAF50;
-  color: blue;
+  color: rgb(35, 35, 35);
   padding: 15px 32px;
   text-align: center;
   border-radius: 12px;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  transition-duration: 0.4s;
+  transition-duration: 0.4s;  
+  box-shadow: #267F00 0 -6px 8px inset;
 }
 .button:hover {
-  background-color: #4CAF50; /* Green */
+  cursor: pointer;
+  background-color: #55C158;
   color: white;
+  transform: scale(1.05) rotate(-2deg);  
 }
 .srodekLewy{
     position: absolute;
@@ -93,4 +147,15 @@ background-color: #4CAF50; /* Green */
     left: 800px;
     top: 600px;
     background-color: #FF8EFB;
+}
+.footer2 {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.pokazczas{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }

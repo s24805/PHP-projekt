@@ -4,11 +4,13 @@ include('funkcje.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>stwórz pytanie</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
+
 <body >
     <form method="get" action="stworzOdpowiedzi.php" style='text-align:center'>
 
@@ -18,11 +20,13 @@ include('funkcje.php');
             $nazwaQuizu=$_GET['nazwa'];
             $nazwyQuizow=scandir('pytania');
             $nazwaQuizutxt="$nazwaQuizu.txt";
+
             if (in_array($nazwaQuizutxt, $nazwyQuizow)) {
                 Napisz("Podana nazwa quizu już istnieje, proszę podać inna");
                 ?>
                 <?php
             }
+
             else {
                 Napisz("$nazwaQuizu zostal poprawnie stworzony");
                 chdir("pytania");
@@ -47,49 +51,56 @@ include('funkcje.php');
                 <option value="prawda">prawda/fałsz </option>
             </select>
         </label><br>
+
         <label>Podaj treść pytania:<br>
             <input type="text" name="TrescPytania" size="200" required>
-
         </label><br>
+
         <label>Ilość punktów za poprawną odpowieź
             <input type="number"  name="pkty" min="1" required><br>
         </label><br>
+
         <button name="dalej" type="submit" class="button-chudy">przejdz do tworzenia odpowiedzi</button><br>
 
     <?php
             }
         }
+
         else{
             ?>
-    <label>Wybierz typ pytania:
-        <select name="typPyt" required>
-            <option value="jednokrotne">jednokrotnego wyboru</option>
-            <option value="wielokrotne">wielokrotnego wyboru</option>
-            <option value="wpisz">krotka odpowiedz</option>
-            <option value="lista">wybór odpowiedzi z listy</option>
-            <option value="dziury">wypełnienie słów</option>
-            <option value="sortuj">sortowanie elementów</option>
-            <option value="polacz">dopasowanie elementów </option>
-            <option value="prawda">prawda/fałsz </option>
-        </select>
-    </label><br>
-    <label>Podaj treść pytania:<br>
-        <input type="text" name="TrescPytania" size="200" required>
+                <label>Wybierz typ pytania:
+                    <select name="typPyt" required>
+                        <option value="jednokrotne">jednokrotnego wyboru</option>
+                        <option value="wielokrotne">wielokrotnego wyboru</option>
+                        <option value="wpisz">krotka odpowiedz</option>
+                        <option value="lista">wybór odpowiedzi z listy</option>
+                        <option value="dziury">wypełnienie słów</option>
+                        <option value="sortuj">sortowanie elementów</option>
+                        <option value="polacz">dopasowanie elementów </option>
+                        <option value="prawda">prawda/fałsz </option>
+                    </select>
+                </label><br>
 
-    </label><br>
-    <label>Ilość punktów za poprawną odpowieź
-        <input type="number"  name="pkty" min="1" required><br>
-    </label><br>
-        <button name="dalej" type="submit" class="button-chudy" >przejdz do tworzenia odpowiedzi</button><br>
-    </form>
-    <?php
+                <label>Podaj treść pytania:<br>
+                    <input type="text" name="TrescPytania" size="200" required>
+                </label><br>
+
+                <label>Ilość punktów za poprawną odpowieź
+                    <input type="number"  name="pkty" min="1" required><br>
+                </label><br>
+
+                    <button name="dalej" type="submit" class="button-chudy" >przejdz do tworzenia odpowiedzi</button><br>
+
+                </form>
+                <?php
     }
     ?>
+
     <div>
-        <form>
-            <br>
+        <form style="text-align: center"><br>
             <input type="button" value="Wróć" class="button-chudy" onclick="history.back()" >
         </form><br>
     </div>
+
 </body>
 </html>

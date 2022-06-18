@@ -6,7 +6,7 @@
         </form>
     </div>
 */
-
+//     <embed src="music/wrau.mp3"  loop="2" width="2" height="0">
  function Napisz($napisz)
 {
     echo " <font color='#4CAF50'>$napisz</font>";
@@ -272,12 +272,12 @@ class Pytanie{
 }
 
 function sqlConnect(){
-    $servername = "szuflandia.pjwstk.edu.pl";
+    $servername = "localhost";
     $username = "s24805";
-    $password = "Kubica=koks";
-    $dbname = "s24805";
+    $password  = 'Daw.Popl';
+    $dbname  = "s24805";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    return $conn;
+    $db = new mysqli($servername, $username, $password, $dbname);
+    return $db;
 }
 ?>

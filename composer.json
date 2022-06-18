@@ -1,0 +1,7 @@
+{
+    "require": {
+        "egulias/email-validator": "^3.2",
+        "symfony/symfony": "^6.1",
+      "ext-mysqli": "*"
+    }
+}

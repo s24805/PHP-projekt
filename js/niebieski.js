@@ -23,7 +23,7 @@ var moverclass = {
             if (mousedown) {
                 div.style.left = pozycja.clientX + x + 'px';
                 div.style.top = pozycja.clientY + y + 'px';
-				setCookie("niebieskiX",div.style.left,1)
+				setCookie("niebieskiX",pozycja.clientX + x+'px',1)
             }
         }, true);
 
