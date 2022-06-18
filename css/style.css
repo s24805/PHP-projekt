@@ -159,3 +159,25 @@ input[type="radio"] {
 	flex-direction: row;
 	justify-content: center;
 }
+.tablica0{
+	background-color: #2D2D2D;
+	text-align: center;
+}
+.tablica1{
+	background-color: #4C4C4C;
+	text-align: center;
+}
+.tablica2{
+	background-color: black;
+	text-align: center;
+}
+table, th, td{
+		border: 2px solid #4CAF50;
+		 border-collapse: collapse;
+		 color: #4CAF50;
+		 text-align: center;
+}
+.divSrodek{
+	display: flex;
+	justify-content:center;
+}

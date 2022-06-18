@@ -24,15 +24,50 @@ include('funkcje.php');
     $sql="SELECT nazwa, punkty FROM $nazwaQuizu ORDER BY punkty DESC;";
     $result = $conn->query($sql);
 
+
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo "nazwa: " . $row["nazwa"]. " - punkty: " . $row["punkty"]. "<br>";
-        }
+        ?>
+        <table class="tab">
+            <thead class="tab">
+            <tr class="tablica0">
+                <th scope="col">Nazwa</th>
+                <th scope="col">Punkty</th>
+            </tr>
+            </thead>
+            <tbody class="tab">
+            <?php
+            $i=0;
+            while($row = $result->fetch_assoc()) {
+                if($i%2==0){
+                    ?>
+                    <tr class="tablica1">
+                        <td><?php echo$row["nazwa"];?></td>
+                        <td><?php echo$row["punkty"];?></td>
+                    </tr>
+                    <?php
+                }
+                else{
+                    ?>
+                    <tr class="tablica2">
+                        <td><?php echo$row["nazwa"];?></td>
+                        <td><?php echo$row["punkty"];?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                <?php
+                $i++;
+            }
+            ?>
+            </tbody>
+        </table>
+        <?php
     }
 
     else {
-        echo "0 results";
+        echo "0 rekordów";
     }
+
     $conn->close();
     ?>
     <br>
